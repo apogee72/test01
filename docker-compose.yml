@@ -3,11 +3,17 @@ version: "3" # 版本号，deploy功能是3版本特有的，所以只能写3
 volumes:
     applications:
 
+networks:
+  carnival:
+    driver: bridge
+
 services: #服务，每个服务对应配置相同的一个或者多个docker容器
   test01:
     image: nginx:alpine
     volumes:
       - applications:/shared
+    networks:
+      carnival:
     deploy: 
       replicas: 6
       placement:
