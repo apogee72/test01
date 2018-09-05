@@ -49,3 +49,4 @@ volumes:
 
 networks:
   carnival:
+    external: true  
