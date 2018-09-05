@@ -3,7 +3,7 @@ version: '3'
 networks:
   carnival:
     driver: bridge
-    external: true
+    external: false
 
 services:
   nginx:
