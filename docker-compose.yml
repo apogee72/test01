@@ -12,7 +12,7 @@ services: #服务，每个服务对应配置相同的一个或者多个docker容
     volumes:
       - applications:/shared
     networks:
-      carnival:
+      - carnival
     deploy: 
       replicas: 6
       placement:
