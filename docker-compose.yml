@@ -1,70 +1,8 @@
 version: "3" # 版本号，deploy功能是3版本特有的，所以只能写3
 services: #服务，每个服务对应配置相同的一个或者多个docker容器
-  stack_mosquitto: # 服务名，自取
-    image: toke/mosquitto #创建该服务所基于的镜像
-    ports: # 容器内外的端口映射情况
-      - "1883:1883"
-      - "9001:9001"
-    networks: # 替代了命令行模式的--link选项
-      fiware:
-        aliases:
-          - mosquitto
-    volumes: # 容器内外数据传输的对应地址
-      - "/srv/mqtt/config:/mqtt/config:ro"
-      - "/srv/mqtt/log:/mqtt/log"
-      - "/srv/mqtt/data/:/mqtt/data/"
+  test01:
+    image: nginx:alpine
     deploy: 
-      replicas: 1 # replicas模式， 复制数目为1
-      restart_policy:
-        condition: on-failure
+      replicas: 3
       placement:
         constraints: [node.role == worker] # 部署位置，只在工作节点部署
-
-  stack_mongo:
-    image: mongo
-    ports:
-      - "27017:27017"
-    networks:
-      fiware:
-        aliases:
-          - mongo
-    volumes:
-      - "/home/ubuntu/db:/data/db"
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
-      placement:
-        constraints: [node.role == manager]
-  stack_orion:
-    image: fiware/orion
-    ports:
-      - "1026:1026"
-    networks:
-      fiware:
-        aliases:
-          - orion
-    command: -dbhost stack_mongo # 命令行模式中跟在最后的参数，此条没有固定的格式，建议参照所部署的docker镜像的说明文档来确定是否需要该项、需要写什么
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
-      placement:
-        constraints: [node.role == manager] 
-
-  stack_iotagent:
-    image: telefonicaiot/iotagent-ul
-    ports:
-      - "4041:4041"
-      - "7896:7896"
-    networks:
-      fiware:
-        aliases:
-          - iotagent
-    deploy:
-      replicas: 1
-      placement:
-        constraints: [node.role == worker]
-
-networks: #定义部署该项目所需要的网络
-  fiware:
