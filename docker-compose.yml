@@ -6,7 +6,7 @@ services:
     ports:
       - "8080:80"
     networks:
-      - overlay
+      - carnival
     deploy:
       mode: replicated
       replicas: 2
@@ -17,7 +17,7 @@ services:
     volumes:
        - db-data:/var/lib/mysql/data
     networks:
-       - overlay
+       - carnival
     deploy:
       mode: replicated
       replicas: 2
@@ -27,7 +27,7 @@ volumes:
   db-data:
 
 networks:
-  overlay:
+  carnival:
   
 # version: "3" # 版本号，deploy功能是3版本特有的，所以只能写3
 
